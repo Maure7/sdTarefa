@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Employee API Demo</title>
+  <style>
+    :root { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+    body { margin: 2rem; }
+    h1 { margin: 0 0 1rem; }
+    .row { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .card { border: 1px solid #ddd; border-radius: 8px; padding: 1rem; max-width: 360px; }
+    input, button { padding: .5rem .75rem; font-size: 1rem; }
+    input { width: 100%; box-sizing: border-box; }
+    table { border-collapse: collapse; width: 100%; margin-top: 1rem; }
+    th, td { border: 1px solid #ddd; padding: .5rem; text-align: left; }
+    th { background: #f7f7f7; }
+    .muted { color: #666; }
+    .danger { color: #b00020; }
+    .success { color: #2e7d32; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <h1>Employee API Demo</h1>
+  <p class="muted">Back-end base URL: <code id="baseUrl">/</code></p>
+
+  <div class="row">
+    <div class="card" style="flex:1 1 320px">
+      <h2>List employees (GET /employees)</h2>
+      <button id="btnRefresh">Refresh</button>
+      <table id="tbl">
+        <thead>
+          <tr><th>ID</th><th>Name</th><th>Role</th><th>Actions</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="card" style="flex:1 1 320px">
+      <h2>Create employee (POST /employees)</h2>
+      <form id="formCreate">
+        <label>
+          Name
+          <input name="name" placeholder="e.g. Fulano" required />
+        </label>
+        <br /><br />
+        <label>
+          Role
+          <input name="role" placeholder="e.g. ti" required />
+        </label>
+        <br /><br />
+        <button type="submit">Create</button>
+        <span id="createMsg" class="muted"></span>
+      </form>
+    </div>
+
+    <div class="card" style="flex:1 1 320px">
+      <h2>Update employee (PUT /employees/{id})</h2>
+      <form id="formUpdate">
+        <label>
+          ID
+          <input name="id" type="number" placeholder="existing id" required />
+        </label>
+        <br /><br />
+        <label>
+          Name
+          <input name="name" placeholder="new name" required />
+        </label>
+        <br /><br />
+        <label>
+          Role
+          <input name="role" placeholder="new role" required />
+        </label>
+        <br /><br />
+        <button type="submit">Update or Create</button>
+        <span id="updateMsg" class="muted"></span>
+      </form>
+    </div>
+
+    <div class="card" style="flex:1 1 320px">
+      <h2>Delete employee (DELETE /employees/{id})</h2>
+      <form id="formDelete">
+        <label>
+          ID
+          <input name="id" type="number" placeholder="existing id" required />
+        </label>
+        <br /><br />
+        <button type="submit" class="danger">Delete</button>
+        <span id="deleteMsg" class="muted"></span>
+      </form>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
