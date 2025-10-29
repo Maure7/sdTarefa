@@ -1,9 +1,10 @@
-const base = '';
+// Auto-detect API base: if opened via file:// fallback to http://localhost:8081
+const base = (location.origin.startsWith('http')) ? '' : 'http://localhost:8081';
 const api = {
-  list: () => fetch(`${base}/employees`).then(r => r.json()),
-  create: (data) => fetch(`${base}/employees`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) }).then(r => r.json()),
-  update: (id, data) => fetch(`${base}/employees/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) }).then(r => r.json()),
-  remove: (id) => fetch(`${base}/employees/${id}`, { method: 'DELETE' }),
+  list: () => fetch(`${base}/carros`).then(r => r.json()),
+  create: (data) => fetch(`${base}/carros`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) }).then(r => r.json()),
+  update: (id, data) => fetch(`${base}/carros/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) }).then(r => r.json()),
+  remove: (id) => fetch(`${base}/carros/${id}`, { method: 'DELETE' }),
 }
 
 function byId(id) { return document.getElementById(id); }
@@ -15,11 +16,11 @@ function renderRows(items) {
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td>${e.id ?? ''}</td>
-      <td>${e.name ?? ''}</td>
-      <td>${e.role ?? ''}</td>
+      <td>${e.marca ?? ''}</td>
+      <td>${e.modelo ?? ''}</td>
       <td>
-        <button data-id="${e.id}" class="btnDel">Delete</button>
-        <button data-id="${e.id}" data-name="${e.name}" data-role="${e.role}" class="btnEdit">Edit</button>
+        <button data-id="${e.id}" class="btnDel">Deletar</button>
+        <button data-id="${e.id}" data-marca="${e.marca}" data-modelo="${e.modelo}" class="btnEdit">Editar</button>
       </td>
     `;
     tbody.appendChild(tr);
@@ -28,43 +29,51 @@ function renderRows(items) {
   // wire buttons
   tbody.querySelectorAll('.btnDel').forEach(btn => btn.addEventListener('click', async (ev) => {
     const id = ev.target.getAttribute('data-id');
-    if (!confirm(`Delete employee ${id}?`)) return;
+    if (!confirm(`Delete carro ${id}?`)) return;
     await api.remove(id);
     refresh();
   }));
 
   tbody.querySelectorAll('.btnEdit').forEach(btn => btn.addEventListener('click', (ev) => {
     const id = ev.target.getAttribute('data-id');
-    const name = ev.target.getAttribute('data-name');
-    const role = ev.target.getAttribute('data-role');
+    const marca = ev.target.getAttribute('data-marca');
+    const modelo = ev.target.getAttribute('data-modelo');
     const form = document.forms['formUpdate'];
     form.id.value = id;
-    form.name.value = name;
-    form.role.value = role;
-    form.name.focus();
+    form.marca.value = marca;
+    form.modelo.value = modelo;
+    form.marca.focus();
   }));
 }
 
 async function refresh() {
-  byId('baseUrl').textContent = location.origin;
-  const items = await api.list();
-  renderRows(items);
+  const baseEl = byId('baseUrl');
+  if (baseEl) baseEl.textContent = (base || location.origin);
+  try {
+    const items = await api.list();
+    console.debug('API /carros returned', items);
+    renderRows(items);
+  } catch (e) {
+    console.error('Error fetching list', e);
+    const tbody = document.querySelector('#tbl tbody');
+    tbody.innerHTML = `<tr><td colspan="4" class="danger">Erro ao carregar lista. Verifique se a API está rodando em ${base || location.origin}.</td></tr>`;
+  }
 }
 
 // create
 const formCreate = document.forms['formCreate'];
 formCreate.addEventListener('submit', async (ev) => {
   ev.preventDefault();
-  const payload = { name: formCreate.name.value.trim(), role: formCreate.role.value.trim() };
-  if (!payload.name || !payload.role) return;
-  byId('createMsg').textContent = 'Creating...';
+  const payload = { marca: formCreate.marca.value.trim(), modelo: formCreate.modelo.value.trim() };
+  if (!payload.marca || !payload.modelo) return;
+  byId('createMsg').textContent = 'Creando...';
   try {
     await api.create(payload);
     formCreate.reset();
-    byId('createMsg').textContent = 'Created ✅';
+    byId('createMsg').textContent = 'Creado ✅';
     refresh();
   } catch (e) {
-    byId('createMsg').textContent = 'Error creating';
+    byId('createMsg').textContent = 'Error ao criar';
   }
 });
 
@@ -73,15 +82,15 @@ const formUpdate = document.forms['formUpdate'];
 formUpdate.addEventListener('submit', async (ev) => {
   ev.preventDefault();
   const id = formUpdate.id.value.trim();
-  const payload = { name: formUpdate.name.value.trim(), role: formUpdate.role.value.trim() };
-  if (!id || !payload.name || !payload.role) return;
-  byId('updateMsg').textContent = 'Saving...';
+  const payload = { marca: formUpdate.marca.value.trim(), modelo: formUpdate.modelo.value.trim() };
+  if (!id || !payload.marca || !payload.modelo) return;
+  byId('updateMsg').textContent = 'Guardando...';
   try {
     await api.update(id, payload);
-    byId('updateMsg').textContent = 'Saved ✅';
+    byId('updateMsg').textContent = 'Guardado ✅';
     refresh();
   } catch (e) {
-    byId('updateMsg').textContent = 'Error saving';
+    byId('updateMsg').textContent = 'Error ao guardar';
   }
 });
 
@@ -91,13 +100,13 @@ formDelete.addEventListener('submit', async (ev) => {
   ev.preventDefault();
   const id = formDelete.id.value.trim();
   if (!id) return;
-  byId('deleteMsg').textContent = 'Deleting...';
+  byId('deleteMsg').textContent = 'Eliminando...';
   try {
     await api.remove(id);
-    byId('deleteMsg').textContent = 'Deleted ✅';
+    byId('deleteMsg').textContent = 'Eliminado ✅';
     refresh();
   } catch (e) {
-    byId('deleteMsg').textContent = 'Error deleting';
+    byId('deleteMsg').textContent = 'Error ao eliminar';
   }
 });
 

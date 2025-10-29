@@ -22,41 +22,38 @@
   </style>
 </head>
 <body>
-  <h1>Employee API Demo</h1>
-  <p class="muted">Back-end base URL: <code id="baseUrl">/</code></p>
-
   <div class="row">
     <div class="card" style="flex:1 1 320px">
-      <h2>List employees (GET /employees)</h2>
-      <button id="btnRefresh">Refresh</button>
+      <h2>Listar Carros (GET /carros)</h2>
+      <button id="btnRefresh">Atualizar</button>
       <table id="tbl">
         <thead>
-          <tr><th>ID</th><th>Name</th><th>Role</th><th>Actions</th></tr>
+          <tr><th>ID</th><th>Marca</th><th>Modelo</th><th>Ações</th></tr>
         </thead>
         <tbody></tbody>
       </table>
     </div>
 
     <div class="card" style="flex:1 1 320px">
-      <h2>Create employee (POST /employees)</h2>
+      <h2>Create Carro (POST /carros)</h2>
       <form id="formCreate">
         <label>
-          Name
-          <input name="name" placeholder="e.g. Fulano" required />
+          Marca
+          <input name="marca" placeholder="e.g. Chevrolet" required />
         </label>
         <br /><br />
         <label>
-          Role
-          <input name="role" placeholder="e.g. ti" required />
+          Modelo
+          <input name="modelo" placeholder="e.g. LTZ" required />
         </label>
         <br /><br />
-        <button type="submit">Create</button>
+        <button type="submit">Crear</button>
         <span id="createMsg" class="muted"></span>
       </form>
     </div>
 
     <div class="card" style="flex:1 1 320px">
-      <h2>Update employee (PUT /employees/{id})</h2>
+      <h2>Atualizar Carro (PUT /carros/{id})</h2>
       <form id="formUpdate">
         <label>
           ID
@@ -64,34 +61,34 @@
         </label>
         <br /><br />
         <label>
-          Name
-          <input name="name" placeholder="new name" required />
+          Marca
+          <input name="marca" placeholder="nova marca" required />
         </label>
         <br /><br />
         <label>
-          Role
-          <input name="role" placeholder="new role" required />
+          Modelo
+          <input name="modelo" placeholder="novo modelo" required />
         </label>
         <br /><br />
-        <button type="submit">Update or Create</button>
+        <button type="submit">Atualizar ou Criar</button>
         <span id="updateMsg" class="muted"></span>
       </form>
     </div>
 
     <div class="card" style="flex:1 1 320px">
-      <h2>Delete employee (DELETE /employees/{id})</h2>
+      <h2>Delete Carro (DELETE /carros/{id})</h2>
       <form id="formDelete">
         <label>
           ID
           <input name="id" type="number" placeholder="existing id" required />
         </label>
         <br /><br />
-        <button type="submit" class="danger">Delete</button>
+        <button type="submit" class="danger">Deletar</button>
         <span id="deleteMsg" class="muted"></span>
       </form>
     </div>
   </div>
 
-  <script src="/app.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
