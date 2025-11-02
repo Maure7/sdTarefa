@@ -26,7 +26,6 @@ function renderRows(items) {
     tbody.appendChild(tr);
   }
 
-  // wire buttons
   tbody.querySelectorAll('.btnDel').forEach(btn => btn.addEventListener('click', async (ev) => {
     const id = ev.target.getAttribute('data-id');
     if (!confirm(`Delete carro ${id}?`)) return;
@@ -60,7 +59,7 @@ async function refresh() {
   }
 }
 
-// create
+
 const formCreate = document.forms['formCreate'];
 formCreate.addEventListener('submit', async (ev) => {
   ev.preventDefault();
@@ -77,7 +76,7 @@ formCreate.addEventListener('submit', async (ev) => {
   }
 });
 
-// update
+
 const formUpdate = document.forms['formUpdate'];
 formUpdate.addEventListener('submit', async (ev) => {
   ev.preventDefault();
@@ -94,7 +93,7 @@ formUpdate.addEventListener('submit', async (ev) => {
   }
 });
 
-// delete
+
 const formDelete = document.forms['formDelete'];
 formDelete.addEventListener('submit', async (ev) => {
   ev.preventDefault();
@@ -110,6 +109,6 @@ formDelete.addEventListener('submit', async (ev) => {
   }
 });
 
-// initial
+
 byId('btnRefresh').addEventListener('click', refresh);
 refresh();

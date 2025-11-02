@@ -1,6 +1,14 @@
 #FileLock
+<<<<<<< HEAD
 #Sun Nov 02 18:55:52 UYT 2025
 hostName=DESKTOP-LELOFDE
 id=19a4691c87fb7c335920698881149740f5a3a62be04
 method=file
 server=192.168.1.2\:62025
+=======
+#Sat Nov 01 13:42:15 GMT-03:00 2025
+hostName=DESKTOP-1EC24CA
+id=19a404c54d4959899fda0d3a9a4a45193c1246ecc04
+method=file
+server=192.168.1.6\:63938
+>>>>>>> d6b5b58042ee5b7f82e7cf626b4a4428af559c44

@@ -21,20 +21,19 @@ class CarrosController {
   }
 
 
-  // Aggregate root
-  // tag::get-aggregate-root[]
+
   @GetMapping("/carros")
   List<Carros> all() {
     return repository.findAll();
   }
-  // end::get-aggregate-root[]
+
 
   @PostMapping("/carros")
   Carros newCarros(@RequestBody Carros newCarros) {
     return repository.save(newCarros);
   }
 
-  // Single item
+
   
   @GetMapping("/carros/{id}")
   Carros one(@PathVariable Long id) {
